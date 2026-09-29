@@ -1,0 +1,461 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard - MyShop</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f5f6f8;
+            color: #222;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+
+        .nav-links a {
+            text-decoration: none;
+            color: #222;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            padding: 80px 8%;
+            background: #111;
+            color: white;
+        }
+
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+
+        .hero p {
+            margin-bottom: 25px;
+        }
+
+
+        .hero button {
+            padding: 12px 25px;
+            border: none;
+            background: white;
+            color: black;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+        /* PRODUCTS */
+
+        .products {
+            padding: 50px 7%;
+        }
+
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+
+        .heading p {
+            color: #777;
+            margin-top: 8px;
+        }
+
+
+        .product-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 25px;
+        }
+
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+
+        .product-info {
+            padding: 18px;
+        }
+
+
+        .product-info h3 {
+            margin-bottom: 8px;
+        }
+
+
+        .category {
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+
+        .product-info button {
+            background: #111;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+        @media(max-width:900px) {
+
+            .product-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+        }
+
+
+        @media(max-width:600px) {
+
+            .navbar {
+                height: auto;
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SHARED USER NAVBAR
+========================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        MyShop
+    </div>
+
+
+    <nav class="nav-links">
+
+        <a href="dashboard.html">
+            Home
+        </a>
+
+        <a href="#products">
+            Products
+        </a>
+
+        <a href="orders.html">
+            My Orders
+        </a>
+
+        <a href="#">
+            Profile
+        </a>
+
+        <a
+            href="login.html"
+            onclick="logout()"
+        >
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <h1>
+        Welcome to MyShop
+    </h1>
+
+    <p>
+        Discover products you love.
+    </p>
+
+    <button
+        onclick="document.getElementById('products').scrollIntoView()"
+    >
+        Shop Now
+    </button>
+
+</section>
+
+
+<!-- =========================
+     PRODUCTS
+========================= -->
+
+<section
+    class="products"
+    id="products"
+>
+
+    <div class="heading">
+
+        <h2>
+            Our Products
+        </h2>
+
+        <p>
+            Explore our latest products
+        </p>
+
+    </div>
+
+
+    <div class="product-grid">
+
+
+        <!-- PRODUCT 1 -->
+
+        <div class="product-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600"
+                alt="T-Shirt"
+            >
+
+            <div class="product-info">
+
+                <h3>
+                    Premium Cotton T-Shirt
+                </h3>
+
+                <p class="category">
+                    Men's Fashion
+                </p>
+
+                <p class="price">
+                    ₹799
+                </p>
+
+                <button
+                    onclick="viewProduct(1)"
+                >
+                    View Product
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 2 -->
+
+        <div class="product-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"
+                alt="Shoes"
+            >
+
+            <div class="product-info">
+
+                <h3>
+                    Classic Running Shoes
+                </h3>
+
+                <p class="category">
+                    Footwear
+                </p>
+
+                <p class="price">
+                    ₹1,999
+                </p>
+
+                <button
+                    onclick="viewProduct(2)"
+                >
+                    View Product
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 3 -->
+
+        <div class="product-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"
+                alt="Watch"
+            >
+
+            <div class="product-info">
+
+                <h3>
+                    Classic Wrist Watch
+                </h3>
+
+                <p class="category">
+                    Accessories
+                </p>
+
+                <p class="price">
+                    ₹2,499
+                </p>
+
+                <button
+                    onclick="viewProduct(3)"
+                >
+                    View Product
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT 4 -->
+
+        <div class="product-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600"
+                alt="Bag"
+            >
+
+            <div class="product-info">
+
+                <h3>
+                    Leather Travel Bag
+                </h3>
+
+                <p class="category">
+                    Bags
+                </p>
+
+                <p class="price">
+                    ₹1,499
+                </p>
+
+                <button
+                    onclick="viewProduct(4)"
+                >
+                    View Product
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<script>
+
+function viewProduct(productId) {
+
+    window.location.href =
+        "product.html?id=" + productId;
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem(
+        "loggedIn"
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>
+```

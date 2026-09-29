@@ -1,0 +1,587 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Product Details - MyShop</title>
+
+
+<style>
+
+* {
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body {
+    background:#f5f6f8;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+
+    height:70px;
+
+    background:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 6%;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+
+.logo {
+
+    font-size:25px;
+
+    font-weight:bold;
+
+}
+
+
+.nav-links {
+
+    display:flex;
+
+    gap:25px;
+
+}
+
+
+.nav-links a {
+
+    text-decoration:none;
+
+    color:#222;
+
+}
+
+
+/* PRODUCT */
+
+.product-container {
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:50px auto;
+
+}
+
+
+.product {
+
+    background:white;
+
+    padding:35px;
+
+    border-radius:10px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:50px;
+
+}
+
+
+.product-image img {
+
+    width:100%;
+
+    height:500px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+
+}
+
+
+.product-details {
+
+    padding-top:20px;
+
+}
+
+
+.product-details h1 {
+
+    font-size:35px;
+
+    margin:15px 0;
+
+}
+
+
+.category {
+
+    color:#777;
+
+}
+
+
+.price {
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    margin:20px 0;
+
+}
+
+
+.description {
+
+    color:#666;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+
+}
+
+
+label {
+
+    display:block;
+
+    font-weight:bold;
+
+    margin:15px 0 7px;
+
+}
+
+
+select,
+input {
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ccc;
+
+    border-radius:5px;
+
+}
+
+
+button {
+
+    width:100%;
+
+    padding:13px;
+
+    margin-top:15px;
+
+    border:none;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.add-cart {
+
+    background:#111;
+
+    color:white;
+
+}
+
+
+.buy {
+
+    background:#eee;
+
+}
+
+
+@media(max-width:700px) {
+
+    .navbar {
+
+        height:auto;
+
+        padding:20px;
+
+        flex-direction:column;
+
+        gap:15px;
+
+    }
+
+    .nav-links {
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+    }
+
+    .product {
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+    <div class="logo">
+        MyShop
+    </div>
+
+
+    <nav class="nav-links">
+
+        <a href="dashboard.html">
+            Home
+        </a>
+
+        <a href="dashboard.html#products">
+            Products
+        </a>
+
+        <a href="orders.html">
+            My Orders
+        </a>
+
+        <a href="#">
+            Profile
+        </a>
+
+        <a
+            href="login.html"
+            onclick="logout()"
+        >
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- PRODUCT -->
+
+<main class="product-container">
+
+    <div class="product">
+
+
+        <div class="product-image">
+
+            <img
+                id="productImage"
+                src=""
+                alt="Product"
+            >
+
+        </div>
+
+
+        <div class="product-details">
+
+            <p
+                id="category"
+                class="category"
+            >
+            </p>
+
+
+            <h1 id="productName">
+            </h1>
+
+
+            <div>
+                ★★★★★
+                <span class="category">
+                    4.5 / 5
+                </span>
+            </div>
+
+
+            <p
+                id="price"
+                class="price"
+            >
+            </p>
+
+
+            <p
+                id="description"
+                class="description"
+            >
+            </p>
+
+
+            <label>
+                Select Size
+            </label>
+
+            <select id="size">
+
+                <option>Small</option>
+
+                <option selected>
+                    Medium
+                </option>
+
+                <option>Large</option>
+
+                <option>XL</option>
+
+            </select>
+
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                type="number"
+                id="quantity"
+                value="1"
+                min="1"
+                max="10"
+            >
+
+
+            <button
+                class="add-cart"
+                onclick="addToCart()"
+            >
+                Add to Cart
+            </button>
+
+
+            <button
+                class="buy"
+                onclick="buyNow()"
+            >
+                Buy Now
+            </button>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+
+const products = {
+
+    1: {
+
+        name:"Premium Cotton T-Shirt",
+
+        category:"Men's Fashion",
+
+        price:"₹799",
+
+        image:
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
+
+        description:
+        "Premium cotton T-shirt with comfortable fitting for everyday use."
+
+    },
+
+
+    2: {
+
+        name:"Classic Running Shoes",
+
+        category:"Footwear",
+
+        price:"₹1,999",
+
+        image:
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+
+        description:
+        "Comfortable running shoes suitable for walking, running and daily activities."
+
+    },
+
+
+    3: {
+
+        name:"Classic Wrist Watch",
+
+        category:"Accessories",
+
+        price:"₹2,499",
+
+        image:
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
+
+        description:
+        "Stylish classic wrist watch suitable for everyday use."
+
+    },
+
+
+    4: {
+
+        name:"Leather Travel Bag",
+
+        category:"Bags",
+
+        price:"₹1,499",
+
+        image:
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800",
+
+        description:
+        "Spacious leather travel bag suitable for travel and everyday use."
+
+    }
+
+};
+
+
+/* GET PRODUCT ID */
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const productId =
+    urlParams.get("id");
+
+
+const product =
+    products[productId];
+
+
+if(product) {
+
+    document.getElementById(
+        "productImage"
+    ).src = product.image;
+
+
+    document.getElementById(
+        "productName"
+    ).innerText = product.name;
+
+
+    document.getElementById(
+        "category"
+    ).innerText = product.category;
+
+
+    document.getElementById(
+        "price"
+    ).innerText = product.price;
+
+
+    document.getElementById(
+        "description"
+    ).innerText = product.description;
+
+}
+
+
+/* ADD CART */
+
+function addToCart() {
+
+    const size =
+        document.getElementById(
+            "size"
+        ).value;
+
+
+    const quantity =
+        document.getElementById(
+            "quantity"
+        ).value;
+
+
+    alert(
+
+        product.name +
+
+        "\n\nSize: " +
+        size +
+
+        "\nQuantity: " +
+        quantity +
+
+        "\n\nAdded to Cart!"
+
+    );
+
+}
+
+
+/* BUY */
+
+function buyNow() {
+
+    alert(
+        "Buy Now selected.\nCheckout will be added next."
+    );
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem(
+        "loggedIn"
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>
+```

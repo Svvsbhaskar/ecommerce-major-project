@@ -1,0 +1,715 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>My Orders - MyShop</title>
+
+
+<style>
+
+* {
+
+    box-sizing:border-box;
+
+    margin:0;
+
+    padding:0;
+
+    font-family:Arial,sans-serif;
+
+}
+
+
+body {
+
+    background:#f5f6f8;
+
+}
+
+
+/* NAVBAR */
+
+.navbar {
+
+    height:70px;
+
+    background:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 6%;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+
+.logo {
+
+    font-size:25px;
+
+    font-weight:bold;
+
+}
+
+
+.nav-links {
+
+    display:flex;
+
+    gap:25px;
+
+}
+
+
+.nav-links a {
+
+    text-decoration:none;
+
+    color:#222;
+
+}
+
+
+/* ORDERS */
+
+.orders {
+
+    width:90%;
+
+    max-width:1100px;
+
+    margin:40px auto;
+
+}
+
+
+.heading {
+
+    margin-bottom:30px;
+
+}
+
+
+.heading h1 {
+
+    font-size:32px;
+
+}
+
+
+.heading p {
+
+    color:#777;
+
+    margin-top:8px;
+
+}
+
+
+.order-card {
+
+    background:white;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+    margin-bottom:20px;
+
+}
+
+
+.order-header {
+
+    background:#fafafa;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid #ddd;
+
+    display:flex;
+
+    justify-content:space-between;
+
+}
+
+
+.order-header span {
+
+    display:block;
+
+    color:#777;
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+
+.order-body {
+
+    padding:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+
+.order-body img {
+
+    width:120px;
+
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+
+}
+
+
+.order-info {
+
+    flex:1;
+
+}
+
+
+.order-info h2 {
+
+    margin-bottom:10px;
+
+}
+
+
+.order-info p {
+
+    color:#777;
+
+    margin:5px 0;
+
+}
+
+
+.order-info h3 {
+
+    margin-top:10px;
+
+}
+
+
+.status {
+
+    padding:7px 13px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+}
+
+
+.delivered {
+
+    background:#e4f6e9;
+
+    color:#167537;
+
+}
+
+
+.shipped {
+
+    background:#e5efff;
+
+    color:#1759a5;
+
+}
+
+
+.processing {
+
+    background:#fff1d5;
+
+    color:#956300;
+
+}
+
+
+.actions {
+
+    display:flex;
+
+    gap:8px;
+
+    margin-top:15px;
+
+}
+
+
+.actions button {
+
+    border:none;
+
+    padding:9px 14px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.view {
+
+    background:#111;
+
+    color:white;
+
+}
+
+
+.track {
+
+    background:#eee;
+
+    color:#111;
+
+}
+
+
+@media(max-width:700px) {
+
+    .navbar {
+
+        height:auto;
+
+        padding:20px;
+
+        flex-direction:column;
+
+        gap:15px;
+
+    }
+
+
+    .nav-links {
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+    }
+
+
+    .order-header {
+
+        flex-direction:column;
+
+        gap:10px;
+
+    }
+
+
+    .order-body {
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+
+    .order-body img {
+
+        width:100%;
+
+        height:250px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- SHARED NAVBAR -->
+
+<header class="navbar">
+
+    <div class="logo">
+        MyShop
+    </div>
+
+
+    <nav class="nav-links">
+
+        <a href="dashboard.html">
+            Home
+        </a>
+
+        <a href="dashboard.html#products">
+            Products
+        </a>
+
+        <a href="orders.html">
+            My Orders
+        </a>
+
+        <a href="#">
+            Profile
+        </a>
+
+        <a
+            href="login.html"
+            onclick="logout()"
+        >
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- ORDERS -->
+
+<main class="orders">
+
+
+    <div class="heading">
+
+        <h1>
+            My Orders
+        </h1>
+
+        <p>
+            View and manage your recent orders
+        </p>
+
+    </div>
+
+
+    <!-- ORDER 1 -->
+
+    <div class="order-card">
+
+        <div class="order-header">
+
+            <div>
+
+                <strong>
+                    Order #ORD1001
+                </strong>
+
+                <span>
+                    Placed on 29 September 2026
+                </span>
+
+            </div>
+
+            <strong>
+                Total: ₹799
+            </strong>
+
+        </div>
+
+
+        <div class="order-body">
+
+            <img
+                src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"
+                alt="T-Shirt"
+            >
+
+
+            <div class="order-info">
+
+                <h2>
+                    Premium Cotton T-Shirt
+                </h2>
+
+                <p>
+                    Size: L
+                </p>
+
+                <p>
+                    Quantity: 1
+                </p>
+
+                <h3>
+                    ₹799
+                </h3>
+
+            </div>
+
+
+            <div>
+
+                <span class="status delivered">
+                    Delivered
+                </span>
+
+
+                <div class="actions">
+
+                    <button
+                        class="view"
+                        onclick="viewOrder('ORD1001')"
+                    >
+                        View
+                    </button>
+
+
+                    <button
+                        class="track"
+                        onclick="trackOrder('ORD1001')"
+                    >
+                        Track
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ORDER 2 -->
+
+    <div class="order-card">
+
+        <div class="order-header">
+
+            <div>
+
+                <strong>
+                    Order #ORD1002
+                </strong>
+
+                <span>
+                    Placed on 27 September 2026
+                </span>
+
+            </div>
+
+            <strong>
+                Total: ₹1,999
+            </strong>
+
+        </div>
+
+
+        <div class="order-body">
+
+            <img
+                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
+                alt="Shoes"
+            >
+
+
+            <div class="order-info">
+
+                <h2>
+                    Classic Running Shoes
+                </h2>
+
+                <p>
+                    Size: 9
+                </p>
+
+                <p>
+                    Quantity: 1
+                </p>
+
+                <h3>
+                    ₹1,999
+                </h3>
+
+            </div>
+
+
+            <div>
+
+                <span class="status shipped">
+                    Shipped
+                </span>
+
+
+                <div class="actions">
+
+                    <button
+                        class="view"
+                        onclick="viewOrder('ORD1002')"
+                    >
+                        View
+                    </button>
+
+
+                    <button
+                        class="track"
+                        onclick="trackOrder('ORD1002')"
+                    >
+                        Track
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ORDER 3 -->
+
+    <div class="order-card">
+
+        <div class="order-header">
+
+            <div>
+
+                <strong>
+                    Order #ORD1003
+                </strong>
+
+                <span>
+                    Placed on 25 September 2026
+                </span>
+
+            </div>
+
+            <strong>
+                Total: ₹2,499
+            </strong>
+
+        </div>
+
+
+        <div class="order-body">
+
+            <img
+                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+                alt="Watch"
+            >
+
+
+            <div class="order-info">
+
+                <h2>
+                    Classic Wrist Watch
+                </h2>
+
+                <p>
+                    Quantity: 1
+                </p>
+
+                <h3>
+                    ₹2,499
+                </h3>
+
+            </div>
+
+
+            <div>
+
+                <span class="status processing">
+                    Processing
+                </span>
+
+
+                <div class="actions">
+
+                    <button
+                        class="view"
+                        onclick="viewOrder('ORD1003')"
+                    >
+                        View
+                    </button>
+
+
+                    <button
+                        class="track"
+                        onclick="trackOrder('ORD1003')"
+                    >
+                        Track
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+function viewOrder(orderId) {
+
+    alert(
+        "Order Details\n\nOrder ID: " +
+        orderId
+    );
+
+}
+
+
+function trackOrder(orderId) {
+
+    alert(
+        "Order Tracking\n\nOrder ID: " +
+        orderId +
+        "\n\nStatus: In Transit"
+    );
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem(
+        "loggedIn"
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>
+```
