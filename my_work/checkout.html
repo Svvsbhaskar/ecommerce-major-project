@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - MyShop</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #222;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #666;
+        }
+
+        .nav-links a.active {
+            color: #ff4757;
+            font-weight: bold;
+            cursor: default;
+        }
+
+        /* CHECKOUT SECTION */
+        .checkout-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 6%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .checkout-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .checkout-box h2 {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+
+        /* PRODUCT REVIEW */
+        .product-review {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .product-review img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .product-details {
+            flex-grow: 1;
+        }
+
+        .product-details h4 {
+            margin-bottom: 5px;
+        }
+
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .qty-selector input {
+            width: 60px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .remove-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .remove-btn:hover {
+            background: #e04050;
+        }
+
+        /* SHIPPING DETAILS */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        /* PAYMENT METHOD */
+        .payment-method {
+            margin-top: 30px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .payment-option input[type="radio"] {
+            transform: scale(1.5);
+            accent-color: #111;
+        }
+
+        /* PLACE ORDER BUTTON */
+        .place-order-btn {
+            width: 100%;
+            background: #111;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .place-order-btn:hover {
+            background: #333;
+        }
+
+        /* NOTIFICATION POPUP */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 50%;
+            transform: translateX(50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NOTIFICATION POPUP -->
+    <div id="notification" class="notification">
+        ✅ Your order has been placed successfully!
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">MyShop</div>
+        <nav class="nav-links">
+            <a href="../pradeep.html/home.html">Home</a>
+            <a href="../pradeep.html/products.html">Products</a>
+            <a href="cart.html">My Cart</a>
+            <a href="my_orders.html">My Orders</a>
+            <a href="profile.html">Profile</a>
+            <a href="#">Logout</a>
+        </nav>
+    </header>
+
+    <!-- CHECKOUT SECTION -->
+    <section class="checkout-container">
+        <form class="checkout-box" onsubmit="placeOrder(event)">
+            <h2>Checkout</h2>
+
+            <!-- Items Review -->
+            <div id="checkout-items-list">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Shipping Information -->
+            <h3 style="margin-bottom: 15px;">Shipping Information</h3>
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Delivery Address</label>
+                <textarea id="address" rows="3" placeholder="Enter your full street address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <!-- Payment Option -->
+            <div class="payment-method">
+                <h3 style="margin-bottom: 15px;">Payment Method</h3>
+                <div class="payment-option">
+                    <!-- COD is the only option and is selected by default -->
+                    <input type="radio" id="cod" name="payment" value="cod" checked readonly>
+                    <label for="cod">Cash on Delivery (COD)</label>
+                </div>
+                <p style="color: #666; font-size: 14px; margin-top: 5px; margin-left: 25px;">Pay with cash when your order is delivered to your doorstep.</p>
+            </div>
+
+            <!-- Place Order Button -->
+            <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+    </section>
+
+    <script>
+        let checkoutItems = [];
+
+        window.onload = function() {
+            // Autofill user details if logged in
+            try {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user) {
+                    if (user.name) document.getElementById('fullname').value = user.name;
+                    if (user.phone) document.getElementById('phone').value = user.phone;
+                }
+            } catch(e) {}
+
+            // Check if single item or entire cart
+            const directItemStr = sessionStorage.getItem('directBuyItem');
+            if (directItemStr) {
+                try {
+                    checkoutItems = [JSON.parse(directItemStr)];
+                } catch(e) {
+                    checkoutItems = [];
+                }
+            } else {
+                try {
+                    checkoutItems = JSON.parse(localStorage.getItem('cart') || '[]');
+                } catch(e) {
+                    checkoutItems = [];
+                }
+            }
+
+            if (!checkoutItems || checkoutItems.length === 0) {
+                alert("No items to checkout. Redirecting to your cart.");
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            renderCheckoutItems();
+        };
+
+        function renderCheckoutItems() {
+            const container = document.getElementById('checkout-items-list');
+            if (checkoutItems.length === 0) {
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            let html = '';
+            checkoutItems.forEach((item, index) => {
+                const maxStock = item.maxStock || 10;
+                html += `
+                    <div class="product-review" id="co-item-${index}">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600'}" alt="${item.name}">
+                        <div class="product-details">
+                            <h4>${item.name}</h4>
+                            <p style="color: #777;">₹${(item.price || 0).toLocaleString('en-IN')} ${item.size ? '• Size: ' + item.size : ''}</p>
+                            <div style="display: flex; gap: 15px; margin-top: 10px; align-items: center;">
+                                <div class="qty-selector" style="margin-top: 0;">
+                                    <label for="checkout-qty-${index}">Quantity:</label>
+                                    <input type="number" id="checkout-qty-${index}" value="${item.quantity}" min="1" max="${maxStock}" 
+                                           onchange="updateCheckoutQty(${index}, this.value, ${maxStock})">
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeCheckoutItem(${index})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function updateCheckoutQty(index, newQty, maxStock) {
+            let qty = parseInt(newQty);
+            if (isNaN(qty) || qty < 1) {
+                alert("Quantity cannot be less than 1.");
+                qty = 1;
+            } else if (qty > maxStock) {
+                alert("Sorry, only " + maxStock + " units are currently available in stock.");
+                qty = maxStock;
+            }
+            if (checkoutItems[index]) {
+                checkoutItems[index].quantity = qty;
+                renderCheckoutItems();
+            }
+        }
+
+        function removeCheckoutItem(index) {
+            checkoutItems.splice(index, 1);
+            if (checkoutItems.length === 0) {
+                // If all items removed, automatically redirect to cart
+                window.location.href = 'cart.html';
+            } else {
+                renderCheckoutItems();
+            }
+        }
+
+        function placeOrder(event) {
+            event.preventDefault();
+
+            if (checkoutItems.length === 0) {
+                alert("No items in order. Redirecting to cart.");
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            const orderId = "ORD-" + Math.floor(10000 + Math.random() * 90000);
+            const today = new Date();
+            const orderDateStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            const deliveryDate = new Date();
+            deliveryDate.setDate(today.getDate() + 7);
+            const deliveryDateStr = deliveryDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            let subtotal = 0;
+            checkoutItems.forEach(i => subtotal += ((i.price || 0) * (i.quantity || 1)));
+            const totalAmount = subtotal + 100 + Math.round(subtotal * 0.05);
+
+            const newOrder = {
+                id: orderId,
+                placedDate: orderDateStr,
+                deliveryDate: deliveryDateStr,
+                items: JSON.parse(JSON.stringify(checkoutItems)),
+                totalAmount: totalAmount,
+                shippingName: document.getElementById('fullname').value,
+                shippingAddress: document.getElementById('address').value,
+                shippingPhone: document.getElementById('phone').value,
+                paymentMode: "Cash on Delivery (COD)",
+                status: "Order Placed"
+            };
+
+            // Save order to localStorage
+            let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.unshift(newOrder);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Clean up cart
+            const directIndexStr = sessionStorage.getItem('directBuyCartIndex');
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+            if (directIndexStr !== null) {
+                const idx = parseInt(directIndexStr);
+                if (!isNaN(idx) && cart[idx]) {
+                    cart.splice(idx, 1);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                }
+            } else if (!sessionStorage.getItem('directBuyItem')) {
+                // Whole cart was checked out, clear cart
+                localStorage.removeItem('cart');
+            }
+
+            sessionStorage.removeItem('directBuyItem');
+            sessionStorage.removeItem('directBuyCartIndex');
+
+            // 1. Show notification popup
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+
+            // 2. Hide notification and redirect after 2 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+                window.location.href = 'my_orders.html';
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>
