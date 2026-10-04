@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,6 +72,18 @@ body {
 
     color:#222;
 
+    transition:color 0.3s;
+
+}
+
+.nav-links a:hover {
+    color:#666;
+}
+
+.nav-links a.active {
+    color:#ff4757;
+    font-weight:bold;
+    cursor:default;
 }
 
 
@@ -271,19 +282,23 @@ button {
 
     <nav class="nav-links">
 
-        <a href="dashboard.html">
+        <a href="home.html">
             Home
         </a>
 
-        <a href="dashboard.html#products">
+        <a href="javascript:void(0)" class="active">
             Products
         </a>
 
-        <a href="orders.html">
+        <a href="../my_work/cart.html">
+            My Cart
+        </a>
+
+        <a href="../my_work/my_orders.html">
             My Orders
         </a>
 
-        <a href="#">
+        <a href="../my_work/profile.html">
             Profile
         </a>
 
@@ -531,31 +546,52 @@ if(product) {
 
 function addToCart() {
 
-    const size =
-        document.getElementById(
-            "size"
-        ).value;
+    if (!product) {
+        alert("Product not found.");
+        return;
+    }
 
+    const size =
+        document.getElementById("size").value;
 
     const quantity =
-        document.getElementById(
-            "quantity"
-        ).value;
+        parseInt(document.getElementById("quantity").value) || 1;
 
+    const priceNum =
+        parseInt(product.price.replace(/[^0-9]/g, '')) || 799;
+
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let existingIndex = cart.findIndex(item => item.name === product.name && item.size === size);
+
+    if (existingIndex > -1) {
+        cart[existingIndex].quantity += quantity;
+    } else {
+        cart.push({
+            id: productId || 1,
+            name: product.name,
+            category: product.category,
+            price: priceNum,
+            image: product.image,
+            size: size,
+            quantity: quantity,
+            maxStock: (productId == 1 ? 10 : (productId == 2 ? 5 : 8))
+        });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
 
     alert(
-
         product.name +
-
         "\n\nSize: " +
         size +
-
         "\nQuantity: " +
         quantity +
-
         "\n\nAdded to Cart!"
-
     );
+
+    // Redirect to cart page
+    window.location.href =
+        "../my_work/cart.html";
 
 }
 
@@ -564,9 +600,36 @@ function addToCart() {
 
 function buyNow() {
 
-    alert(
-        "Buy Now selected.\nCheckout will be added next."
-    );
+    if (!product) {
+        alert("Product not found.");
+        return;
+    }
+
+    const size =
+        document.getElementById("size").value;
+
+    const quantity =
+        parseInt(document.getElementById("quantity").value) || 1;
+
+    const priceNum =
+        parseInt(product.price.replace(/[^0-9]/g, '')) || 799;
+
+    const singleItem = {
+        id: productId || 1,
+        name: product.name,
+        category: product.category,
+        price: priceNum,
+        image: product.image,
+        size: size,
+        quantity: quantity,
+        maxStock: (productId == 1 ? 10 : (productId == 2 ? 5 : 8))
+    };
+
+    sessionStorage.setItem('directBuyItem', JSON.stringify(singleItem));
+
+    // Redirect directly to checkout page
+    window.location.href =
+        "../my_work/checkout.html";
 
 }
 
@@ -584,4 +647,3 @@ function logout() {
 
 </body>
 </html>
-```

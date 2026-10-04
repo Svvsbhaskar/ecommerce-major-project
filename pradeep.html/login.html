@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +28,7 @@
         .container {
             width: 400px;
             max-width: 90%;
-            margin: 100px auto;
+            margin: 60px auto;
             background: white;
             padding: 30px;
             border-radius: 10px;
@@ -72,14 +71,23 @@
             cursor: pointer;
         }
 
-        .register-link {
-            text-align: center;
-            margin-top: 20px;
+        button:hover {
+            background: #333;
         }
 
-        .register-link a {
+        .register-link, .forgot-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .register-link a, .forgot-link a {
             color: #111;
             font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-link a:hover, .forgot-link a:hover {
+            text-decoration: underline;
         }
 
     </style>
@@ -90,7 +98,8 @@
 <body>
 
 
-<div class="container">
+<!-- LOGIN CONTAINER -->
+<div class="container" id="login-container">
 
     <h1>MyShop</h1>
 
@@ -128,6 +137,10 @@
     </form>
 
 
+    <div class="forgot-link">
+        <a href="javascript:void(0)" onclick="showForgotPassword()">Forgot Password?</a>
+    </div>
+
     <div class="register-link">
 
         Don't have an account?
@@ -136,6 +149,88 @@
             Create Account
         </a>
 
+        <div style="margin-top: 15px;">
+            <a href="javascript:void(0)" onclick="resetAllData()" style="color: #999; font-size: 12px; font-weight: normal; text-decoration: underline;">
+                Clear All Stored Data & Start Fresh
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FORGOT PASSWORD CONTAINER -->
+<div class="container" id="forgot-container" style="display: none;">
+
+    <h1>MyShop</h1>
+
+    <p class="subtitle">
+        Reset Your Password
+    </p>
+
+    <p style="font-size: 13px; color: #666; margin-bottom: 15px; text-align: center;">
+        Answer your security questions to set a new password.
+    </p>
+
+    <form onsubmit="resetPassword(event)">
+
+        <label>Registered Email</label>
+        <input
+            type="email"
+            id="reset-email"
+            placeholder="Enter your registered email"
+            required
+        >
+
+        <label>Favourite place to visit often?</label>
+        <input
+            type="text"
+            id="reset-favPlace"
+            placeholder="Enter your answer"
+            required
+        >
+
+        <label>Favourite person?</label>
+        <input
+            type="text"
+            id="reset-favPerson"
+            placeholder="Enter your answer"
+            required
+        >
+
+        <label>What is your hobby?</label>
+        <input
+            type="text"
+            id="reset-hobby"
+            placeholder="Enter your answer"
+            required
+        >
+
+        <label>New Password</label>
+        <input
+            type="password"
+            id="reset-newPassword"
+            placeholder="Enter new password"
+            required
+        >
+
+        <label>Confirm New Password</label>
+        <input
+            type="password"
+            id="reset-confirmPassword"
+            placeholder="Confirm new password"
+            required
+        >
+
+        <button type="submit">
+            Reset Password
+        </button>
+
+    </form>
+
+    <div class="register-link">
+        <a href="javascript:void(0)" onclick="showLogin()">Back to Login</a>
     </div>
 
 </div>
@@ -143,10 +238,19 @@
 
 <script>
 
+function showForgotPassword() {
+    document.getElementById("login-container").style.display = "none";
+    document.getElementById("forgot-container").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("forgot-container").style.display = "none";
+    document.getElementById("login-container").style.display = "block";
+}
+
 function loginUser(event) {
 
     event.preventDefault();
-
 
     const email =
         document.getElementById("email").value;
@@ -154,10 +258,8 @@ function loginUser(event) {
     const password =
         document.getElementById("password").value;
 
-
     const savedUser =
         localStorage.getItem("user");
-
 
     if (!savedUser) {
 
@@ -168,10 +270,8 @@ function loginUser(event) {
         return;
     }
 
-
     const user =
         JSON.parse(savedUser);
-
 
     if (
         email === user.email &&
@@ -183,12 +283,10 @@ function loginUser(event) {
             "true"
         );
 
-
         alert("Login successful!");
 
-
         window.location.href =
-            "dashboard.html";
+            "home.html";
 
     }
 
@@ -202,9 +300,67 @@ function loginUser(event) {
 
 }
 
+function resetPassword(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("reset-email").value.trim();
+    const favPlace = document.getElementById("reset-favPlace").value.trim().toLowerCase();
+    const favPerson = document.getElementById("reset-favPerson").value.trim().toLowerCase();
+    const hobby = document.getElementById("reset-hobby").value.trim().toLowerCase();
+    const newPassword = document.getElementById("reset-newPassword").value;
+    const confirmPassword = document.getElementById("reset-confirmPassword").value;
+
+    const savedUser = localStorage.getItem("user");
+    if (!savedUser) {
+        alert("No registered account found. Please register first.");
+        return;
+    }
+
+    const user = JSON.parse(savedUser);
+
+    if (user.email.toLowerCase() !== email.toLowerCase()) {
+        alert("Email does not match our records.");
+        return;
+    }
+
+    const savedPlace = (user.favPlace || "").trim().toLowerCase();
+    const savedPerson = (user.favPerson || "").trim().toLowerCase();
+    const savedHobby = (user.hobby || "").trim().toLowerCase();
+
+    if (favPlace !== savedPlace || favPerson !== savedPerson || hobby !== savedHobby) {
+        alert("Security question answers do not match. Please verify your answers.");
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        alert("New passwords do not match.");
+        return;
+    }
+
+    if (newPassword.length < 1) {
+        alert("Password cannot be empty.");
+        return;
+    }
+
+    user.password = newPassword;
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("Password reset successfully! Please login with your new password.");
+    showLogin();
+    document.getElementById("password").value = "";
+}
+
+function resetAllData() {
+    if (confirm("This will erase all accounts, cart items, and order history so you can start completely fresh. Proceed?")) {
+        localStorage.clear();
+        sessionStorage.clear();
+        alert("All stored data cleared! Redirecting to registration.");
+        window.location.href = "registration.html";
+    }
+}
+
 </script>
 
 
 </body>
 </html>
-```
